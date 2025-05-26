@@ -1,0 +1,278 @@
+*::after,
+*::before,
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 auto;
+    max-width: 1200px;
+    font-family: 'Lato', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 20px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.icon-cart {
+    width: 40px;
+    height: 40px;
+    stroke: white;
+    cursor: pointer;
+}
+
+.container-icon {
+    position: relative;
+}
+
+.count-products {Maiz
+
+$50
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #000;
+    color: #fff;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.container-cart-products {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: #fff;
+    width: 400px;
+    z-index: 1;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.cart-product {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #000
+}
+
+.info-cart-product {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.titulo-producto-carrito {
+    font-size: 16px;
+}
+
+.precio-producto-carrito {
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+.icon-close {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.icon-close:hover {
+    stroke: red;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    font-weight: bold;
+    color : black;
+}
+
+.hidden-cart {
+    display: none;
+}
+
+/* Main */
+.container-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.item {
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.item:hover {
+    transform: translateY(-5px);
+}
+
+.item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.info-product {
+    padding: 15px;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 900;
+    color: #4CAF50;
+}
+
+.info-product button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.info-product button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container-items {
+        grid-template-columns: 1fr;
+    }
+    .container-cart-products {
+        width: 90%;
+        right: 5%;
+    }
+}
+
+.total-pagar{
+color: #000;
+}
+
+/* Estilos para el botón de pago */
+.btn-pagar {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 20px auto;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.btn-pagar:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para el modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  color:black;
+}
+
+.modal-contenido {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.cerrar-modal {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color:black;
+}
+
+.cerrar-modal:hover {
+  color: black;
+  
+}
+
+#resumen-carrito {
+  margin: 20px 0;
+  color :black;
+}
+
+#resumen-carrito div {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  color: black;}
+
+.total-pago {
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: right;
+  margin: 20px 0;
+  padding-top: 10px;
+  border-top: 2px solid #4CAF50;
+  color : black;
+}
+.btn-inicio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-left: 20px;
+}
+
+.btn-inicio i {
+    font-size: 16px;
+}
+
+.btn-inicio:hover {
+    background-color: #45a049;
+}
+
+

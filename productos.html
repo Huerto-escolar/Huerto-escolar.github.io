@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huerto Escolar - Venta de Plantas</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Huerto Escolar</h1>
+        
+    <!-- Botón de Inicio -->
+    <a href="index.html" class="btn-inicio" title="Ir al inicio">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+
+    <!-- Icono del carrito -->
+   
+        <div class="container-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-cart">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+            </svg>
+            <div class="count-products"><span id="contador-productos">0</span></div>
+            <!-- Botón para abrir el modal de pago -->
+<button id="btn-pagar" class="btn-pagar">Pagar con PayPal</button>
+
+<!-- Modal de pago (oculto inicialmente) -->
+<div id="modal-pago" class="modal">
+  <div class="modal-contenido">
+    <span class="cerrar-modal">&times;</span>
+    <h2>Resumen de tu compra</h2>
+    <div id="resumen-carrito"></div>
+    <div class="total-pago">
+      Total a pagar: <span id="total-carrito">$0.00</span>
+    </div>
+    <div id="paypal-button-container"></div>
+  </div>
+</div>
+        </div>
+        <div class="container-cart-products hidden-cart">
+        
+            <!-- Productos del carrito se añaden dinámicamente con JS -->
+        </div>
+    </header>
+
+    <main>
+        <div class="container-items">
+            <div class="item">
+                <figure>
+                    <img src="alpiste-01.jpg" alt="Alpiste">
+                </figure>
+                <div class="info-product">
+                    <h2>Alpiste</h2>
+                    <p class="price">$80.00</p>
+                    <button class="btn-add-cart">Añadir al carrito</button>
+                </div>
+            </div>
+            <div class="item">
+                <figure>
+                    <img src="oleorresina-guajillo.jpg" alt="Pulpa de Chile">
+                </figure>
+                <div class="info-product">
+                    <h2>Pulpa de Chile</h2>
+                    <p class="price">$20.00</p>
+                    <button class="btn-add-cart">Añadir al carrito</button>
+                </div>
+            </div>
+            <div class="item">
+                <figure>
+                    <img src="Maiz.jpg" alt="Planta">
+                </figure>
+                <div class="info-product">
+                    <h2>Maiz</h2>
+                    <p class="price">$50.00</p>
+                    <button class="btn-add-cart">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+   <script>
+document.addEventListener('DOMContentLoaded', () => {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const btnCart = document.querySelector('.container-icon');
+    const containerCartProducts = document.querySelector('.container-cart-products');
+    const countProducts = document.querySelector('#contador-productos');
+    const btnAddToCart = document.querySelectorAll('.btn-add-cart');
+
+    // Actualizar contador y carrito
+    const updateCart = () => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        containerCartProducts.innerHTML = '';
+        let total = 0;
+        let totalQuantity = 0;
+
+        cart.forEach((product, index) => {
+            const productElement = document.createElement('div');
+            productElement.classList.add('cart-product');
+            productElement.innerHTML = `
+                <p class="titulo-producto-carrito">${product.name} x ${product.quantity}</p>
+                <p class="precio-producto-carrito">$${(product.price * product.quantity).toFixed(2)}</p>
+                <button class="btn-remove" data-index="${index}">Eliminar</button>
+            `;
+            containerCartProducts.appendChild(productElement);
+            total += product.price * product.quantity;
+            totalQuantity += product.quantity;
+        });
+
+        // Mostrar total
+        const totalElement = document.createElement('div');
+        totalElement.classList.add('cart-total');
+        totalElement.innerHTML = `
+            <h3>Total:</h3>
+            <p class="total-pagar">$${total.toFixed(2)}</p>
+        `;
+        containerCartProducts.appendChild(totalElement);
+
+        countProducts.textContent = totalQuantity;
+
+        // Botones de eliminar
+        document.querySelectorAll('.btn-remove').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                cart.splice(index, 1);
+                updateCart();
+            });
+        });
+    };
+
+    // Añadir producto
+    btnAddToCart.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.closest('.item');
+            const name = item.querySelector('h2').textContent;
+            const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
+
+            const existing = cart.find(p => p.name === name);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+
+            updateCart();
+        });
+    });
+
+    // Mostrar/ocultar carrito
+    btnCart.addEventListener('click', () => {
+        containerCartProducts.classList.toggle('hidden-cart');
+    });
+
+    updateCart(); // Inicializar
+});
+</script>
+
+<!-- MODAL Y PAYPAL -->
+<script>
+function mostrarResumenCarrito() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const resumenContainer = document.getElementById('resumen-carrito');
+    const totalContainer = document.getElementById('total-carrito');
+    
+    resumenContainer.innerHTML = '';
+    let total = 0;
+
+    cart.forEach(item => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <span>${item.name} x ${item.quantity}</span>
+            <span>$${(item.price * item.quantity).toFixed(2)}</span>
+        `;
+        resumenContainer.appendChild(div);
+        total += item.price * item.quantity;
+    });
+
+    totalContainer.textContent = `$${total.toFixed(2)}`;
+    return total;
+}
+
+function configurarPayPal() {
+    const total = mostrarResumenCarrito();
+    const container = document.getElementById('paypal-button-container');
+    container.innerHTML = '';
+
+    paypal.Buttons({
+        style: {
+            layout: 'vertical',
+            color: 'gold',
+            shape: 'rect',
+            label: 'paypal'
+        },
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: total.toFixed(2)
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                alert('¡Pago completado! ID: ' + details.id);
+                localStorage.removeItem('cart');
+                document.querySelector('#contador-productos').textContent = '0';
+                document.getElementById('modal-pago').style.display = 'none';
+            });
+        },
+        onError: function(err) {
+            console.error(err);
+            alert('Ocurrió un error al procesar el pago');
+        }
+    }).render('#paypal-button-container');
+}
+
+// Modal
+document.addEventListener('DOMContentLoaded', () => {
+    const btnPagar = document.getElementById('btn-pagar');
+    const modal = document.getElementById('modal-pago');
+    const cerrarModal = document.querySelector('.cerrar-modal');
+
+    btnPagar.addEventListener('click', () => {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (cart.length === 0) {
+            alert('Tu carrito está vacío');
+            return;
+        }
+        mostrarResumenCarrito();
+        modal.style.display = 'block';
+
+        if (!document.querySelector('script[src*="paypal.com"]')) {
+            const script = document.createElement('script');
+            script.src = 'https://www.paypal.com/sdk/js?client-id=AWs2iLRZLlyMjBi3U2EFfvq4pYwlBNZd3OgypKAKMgPCAA7GTlb2hXyKh7c-qA0e-veOYq6IGwoxyycJ&currency=MXN';
+            script.onload = configurarPayPal;
+            document.head.appendChild(script);
+        } else {
+            configurarPayPal();
+        }
+    });
+
+    cerrarModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
+</script>
+
+</body>
+</html>
