@@ -1,531 +1,990 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+<script>
+  emailjs.init('EtPhPZG4n7UgYh1x-'); // Tu User ID
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huerto Escolar - Venta de Plantas</title>
-    <link rel="stylesheet" href="estilos.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <title>Huerto Escolar - Productos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E8B57;
+            --primary-light: #3CB371;
+            --secondary: #F8F8F8;
+            --text: #333333;
+            --text-light: #666666;
+            --white: #FFFFFF;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            background-color: var(--secondary);
+            line-height: 1.6;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+        }
+        
+        .menu-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        
+        .nav-links li a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+            padding: 0.5rem;
+        }
+        
+        .nav-links li a:hover, 
+        .nav-links li a.active {
+            color: var(--primary);
+        }
+        
+        .cart-icon {
+            position: relative;
+        }
+        
+        .count-products {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: var(--white);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Productos */
+        .categorias {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+        
+        .categorias h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .filtros {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filtro-btn {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filtro-btn.active,
+        .filtro-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .container-categorias {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .categoria-productos {
+            margin-bottom: 3rem;
+        }
+        
+        .categoria-productos h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .container-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .item {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .item figure {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .info-product {
+            padding: 1.5rem;
+        }
+        
+        .info-product h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        
+        .price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-add-cart {
+            width: 100%;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-add-cart:hover {
+            background: var(--primary-light);
+        }
+        
+        /* Carrito */
+        .cart-container {
+            position: relative;
+        }
+        .container-cart-products {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: var(--white);
+    width: 400px;
+    max-height: 60vh; /* Altura máxima (60% del viewport) */
+    overflow-y: auto; /* Scroll vertical automático */
+    z-index: 1000;
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+    padding: 1rem;
+    display: none;
+}
+        
+        .cart-product {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-cart-product {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        
+        .titulo-producto-carrito {
+            font-weight: 600;
+        }
+        
+        .precio-producto-carrito {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .btn-remove {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn-remove:hover {
+            background: #ff1a1a;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-top: 2px solid var(--primary);
+        }
+        
+        .total-pagar {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .btn-pagar {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-pagar:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-contenido {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .cerrar-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .cerrar-modal:hover {
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        .cool-footer {
+            background: #2E5E4E;
+            color: var(--white);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .footer-logo img {
+            width: 100px;
+        }
+        
+        .social-links h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-icon {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .social-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                background: var(--white);
+                flex-direction: column;
+                width: 80%;
+                max-width: 300px;
+                border-radius: 10px;
+                box-shadow: var(--shadow);
+                padding: 2rem;
+                transition: right 0.3s ease;
+            }
+            
+            .nav-links.active {
+                right: 2rem;
+            }
+            
+            .container-cart-products {
+        width: 300px;
+    height: 200px;
+    overflow: auto; /* Muestra scroll solo si es necesario */
+    /* overflow-y: auto;  Solo scroll vertical */
+    /* overflow-x: auto;  Solo scroll horizontal */
+    border: 1px solid #ccc; 
+            
+        }
+        
+        
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Huerto Escolar</h1>
-        
-    <!-- Botón de Inicio -->
-    <a href="index.html" class="btn-inicio" title="Ir al inicio">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-
-    <!-- Icono del carrito -->
-   
-        <div class="container-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-cart">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
-            </svg>
-            <div class="count-products"><span id="contador-productos">0</span></div>
-            <!-- Botón para abrir el modal de pago -->
-
-<button id="btn-contraentrega" class="btn-pagar">Pago Contra Entrega</button>
-
-<!-- Modal de pago (oculto inicialmente) -->
-<div id="modal-pago" class="modal">
-  <div class="modal-contenido">
-    <span class="cerrar-modal">&times;</span>
-    <h2>Resumen de tu compra</h2>
-    <div id="resumen-carrito"></div>
-    <div class="total-pago">
-      Total a pagar: <span id="total-carrito">$0.00</span>
-    </div>
-    <div id="paypal-button-container"></div>
-  </div>
-</div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <span>Huerto Escolar</span>
         </div>
-        <div class="container-cart-products hidden-cart">
-        
-            <!-- Productos del carrito se añaden dinámicamente con JS -->
+        <div class="menu-container">
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="productos.html" class="active"><i class="fas fa-seedling"></i> Productos</a></li>
+                <li><a href="nostros.html"><i class="fas fa-users"></i> Sobre Nosotros</a></li>
+                <li class="cart-container">
+                    <a href="#" class="cart-icon" id="btn-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="count-products">0</span>
+                    </a>
+                    <div class="container-cart-products" id="container-cart-products">
+                        <!-- Productos del carrito se añaden aquí con JS -->
+                    </div>
+                </li>
+            </ul>
         </div>
-    </header>
+    </nav>
 
-  <main>
-    <!-- Sección de categorías -->
-    <div class="categorias">
-        <h2>Nuestros Productos</h2>
-        <div class="filtros">
-            <button class="filtro-btn active" data-categoria="todas">Todas</button>
-            <button class="filtro-btn" data-categoria="macetas"><i class="fas fa-recycle"></i> Macetas</button>
-            <button class="filtro-btn" data-categoria="bombas"><i class="fas fa-bomb"></i> Bombas</button>
-            <button class="filtro-btn" data-categoria="semillas"><i class="fas fa-seedling"></i> Semillas</button>
-            <button class="filtro-btn" data-categoria="plantas"><i class="fas fa-leaf"></i> Plantas</button>
+    <main>
+        <!-- Sección de categorías -->
+        <div class="categorias">
+            <h2>Nuestros Productos</h2>
+            <div class="filtros">
+                <button class="filtro-btn active" data-categoria="todas">Todas</button>
+                <button class="filtro-btn" data-categoria="macetas"><i class="fas fa-recycle"></i> Macetas</button>
+                <button class="filtro-btn" data-categoria="bombas"><i class="fas fa-bomb"></i> Bombas</button>
+                <button class="filtro-btn" data-categoria="semillas"><i class="fas fa-seedling"></i> Semillas</button>
+                <button class="filtro-btn" data-categoria="plantas"><i class="fas fa-leaf"></i> Plantas</button>
+            </div>
+        </div>
+
+        <!-- Contenedor de productos -->
+        <div class="container-categorias">
+            <!-- Macetas Ecológicas -->
+            <section class="categoria-productos" id="macetas">
+                <h3><i class="fas fa-recycle" style="color: #4CAF50;"></i> Macetas Ecológicas</h3>
+                <div class="container-items">
+                    <!-- Producto 1 -->
+                    <div class="item">
+                        <figure>
+                            <img src="alpiste-01.jpg" alt="Maceta Alpiste">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Maceta Alpiste</h2>
+                            <p class="price">$80.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                    <!-- Producto 2 -->
+                    <div class="item">
+                        <figure>
+                            <img src="oleorresina-guajillo.jpg" alt="Maceta Chile">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Maceta Chile</h2>
+                            <p class="price">$20.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                    <!-- Producto 3 -->
+                    <div class="item">
+                        <figure>
+                            <img src="Maiz.jpg" alt="Maceta Maíz">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Maceta Maíz</h2>
+                            <p class="price">$50.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bombas de Semillas -->
+            <section class="categoria-productos" id="bombas">
+                <h3><i class="fas fa-bomb" style="color: #FF9800;"></i> Bombas de Semillas</h3>
+                <div class="container-items">
+                    <div class="item">
+                        <figure>
+                            <img src="alpiste-01.jpg" alt="Bomba Alpiste">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Bomba Alpiste</h2>
+                            <p class="price">$80.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <figure>
+                            <img src="oleorresina-guajillo.jpg" alt="Bomba Chile">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Bomba Chile</h2>
+                            <p class="price">$20.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <figure>
+                            <img src="Maiz.jpg" alt="Bomba Maíz">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Bomba Maíz</h2>
+                            <p class="price">$50.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Semillas -->
+            <section class="categoria-productos" id="semillas">
+                <h3><i class="fas fa-seedling" style="color: #8BC34A;"></i> Semillas</h3>
+                <div class="container-items">
+                    <div class="item">
+                        <figure>
+                            <img src="alpiste-01.jpg" alt="Semillas Alpiste">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Semillas Alpiste</h2>
+                            <p class="price">$80.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <figure>
+                            <img src="oleorresina-guajillo.jpg" alt="Semillas Chile">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Semillas Chile</h2>
+                            <p class="price">$20.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <figure>
+                            <img src="Maiz.jpg" alt="Semillas Maíz">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Semillas Maíz</h2>
+                            <p class="price">$50.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Plantas Decorativas -->
+            <section class="categoria-productos" id="plantas">
+                <h3><i class="fas fa-leaf" style="color: #2E5E4E;"></i> Plantas Decorativas</h3>
+                <div class="container-items">
+                    <div class="item">
+                        <figure>
+                            <img src="alpiste-01.jpg" alt="Planta Alpiste">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Planta Alpiste</h2>
+                            <p class="price">$80.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <figure>
+                            <img src="oleorresina-guajillo.jpg" alt="Planta Chile">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Planta Chile</h2>
+                            <p class="price">$20.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <figure>
+                            <img src="Maiz.jpg" alt="Planta Maíz">
+                        </figure>
+                        <div class="info-product">
+                            <h2>Planta Maíz</h2>
+                            <p class="price">$50.00</p>
+                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="cool-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://via.placeholder.com/100x100?text=Huerto+Escolar" alt="Huerto Escolar">
+                <p>Cultivando futuro, sembrando conciencia.</p>
+            </div>
+
+            <div class="social-links">
+                <h4>Síguenos</h4>
+                <div class="social-icons">
+                    <a href="#" target="_blank" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" target="_blank" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" target="_blank" class="social-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Huerto Escolar. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modal para pago contra entrega -->
+    <div id="modal-contraentrega" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar-modal">&times;</span>
+            <h2>Datos para Pago Contra Entrega</h2>
+            <form id="form-contraentrega">
+                <label for="nombre">Nombre completo:</label>
+                <input type="text" id="nombre" required>
+
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" required>
+
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" id="correo" required>
+
+                <button type="submit" class="btn-pagar">Generar Ticket</button>
+            </form>
         </div>
     </div>
 
-    <!-- Contenedor de productos -->
-    <div class="container-categorias">
-        <!-- Macetas Ecológicas -->
-        <section class="categoria-productos" id="macetas">
-            <h3><i class="fas fa-recycle" style="color: #4CAF50;"></i> Macetas Ecológicas</h3>
-            <div class="container-items">
-                <!-- Producto 1 -->
-                <div class="item">
-                    <figure>
-                        <img src="alpiste-01.jpg" alt="Maceta Alpiste">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Maceta Alpiste</h2>
-                        <p class="price">$80.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-                <!-- Producto 2 -->
-                <div class="item">
-                    <figure>
-                        <img src="oleorresina-guajillo.jpg" alt="Maceta Chile">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Maceta Chile</h2>
-                        <p class="price">$20.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-                <!-- Producto 3 -->
-                <div class="item">
-                    <figure>
-                        <img src="Maiz.jpg" alt="Maceta Maíz">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Maceta Maíz</h2>
-                        <p class="price">$50.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
-        <!-- Bombas de Semillas -->
-        <section class="categoria-productos" id="bombas">
-            <h3><i class="fas fa-bomb" style="color: #FF9800;"></i> Bombas de Semillas</h3>
-            <div class="container-items">
-                <!-- Mismos productos con títulos adaptados -->
-                <div class="item">
-                    <figure>
-                        <img src="alpiste-01.jpg" alt="Bomba Alpiste">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Bomba Alpiste</h2>
-                        <p class="price">$80.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-                <div class="item">
-                    <figure>
-                        <img src="oleorresina-guajillo.jpg" alt="Bomba Chile">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Bomba Chile</h2>
-                        <p class="price">$20.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-                <div class="item">
-                    <figure>
-                        <img src="Maiz.jpg" alt="Bomba Maíz">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Bomba Maíz</h2>
-                        <p class="price">$50.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <script>
+        // Inicializar EmailJS
+        emailjs.init('EtPhPZG4n7UgYh1x-');
 
-        <!-- Semillas -->
-        <section class="categoria-productos" id="semillas">
-            <h3><i class="fas fa-seedling" style="color: #8BC34A;"></i> Semillas</h3>
-            <div class="container-items">
-                <!-- Mismos productos con títulos adaptados -->
-                <div class="item">
-                    <figure>
-                        <img src="alpiste-01.jpg" alt="Semillas Alpiste">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Semillas Alpiste</h2>
-                        <p class="price">$80.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-                <div class="item">
-                    <figure>
-                        <img src="oleorresina-guajillo.jpg" alt="Semillas Chile">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Semillas Chile</h2>
-                        <p class="price">$20.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-                <div class="item">
-                    <figure>
-                        <img src="Maiz.jpg" alt="Semillas Maíz">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Semillas Maíz</h2>
-                        <p class="price">$50.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const btnCart = document.getElementById('btn-cart');
+            const containerCartProducts = document.getElementById('container-cart-products');
+            const countProducts = document.querySelector('.count-products');
+            const btnAddToCart = document.querySelectorAll('.btn-add-cart');
+            const modalContraEntrega = document.getElementById('modal-contraentrega');
+            const formContraEntrega = document.getElementById('form-contraentrega');
+            const cerrarModal = document.querySelector('.cerrar-modal');
 
-        <!-- Plantas Decorativas -->
-        <section class="categoria-productos" id="plantas">
-            <h3><i class="fas fa-leaf" style="color: #2E5E4E;"></i> Plantas Decorativas</h3>
-            <div class="container-items">
-                <!-- Mismos productos con títulos adaptados -->
-                <div class="item">
-                    <figure>
-                        <img src="alpiste-01.jpg" alt="Planta Alpiste">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Planta Alpiste</h2>
-                        <p class="price">$80.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-                <div class="item">
-                    <figure>
-                        <img src="oleorresina-guajillo.jpg" alt="Planta Chile">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Planta Chile</h2>
-                        <p class="price">$20.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-                <div class="item">
-                    <figure>
-                        <img src="Maiz.jpg" alt="Planta Maíz">
-                    </figure>
-                    <div class="info-product">
-                        <h2>Planta Maíz</h2>
-                        <p class="price">$50.00</p>
-                        <button class="btn-add-cart">Añadir al carrito</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</main>
-   <script>
-document.addEventListener('DOMContentLoaded', () => {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    const btnCart = document.querySelector('.container-icon');
-    const containerCartProducts = document.querySelector('.container-cart-products');
-    const countProducts = document.querySelector('#contador-productos');
-    const btnAddToCart = document.querySelectorAll('.btn-add-cart');
-
-    // Actualizar contador y carrito
-    const updateCart = () => {
-        localStorage.setItem('cart', JSON.stringify(cart));
-        containerCartProducts.innerHTML = '';
-        let total = 0;
-        let totalQuantity = 0;
-
-        cart.forEach((product, index) => {
-            const productElement = document.createElement('div');
-            productElement.classList.add('cart-product');
-            productElement.innerHTML = `
-                <p class="titulo-producto-carrito">${product.name} x ${product.quantity}</p>
-                <p class="precio-producto-carrito">$${(product.price * product.quantity).toFixed(2)}</p>
-                <button class="btn-remove" data-index="${index}">Eliminar</button>
-            `;
-            containerCartProducts.appendChild(productElement);
-            total += product.price * product.quantity;
-            totalQuantity += product.quantity;
-        });
-
-        // Mostrar total
-        const totalElement = document.createElement('div');
-        totalElement.classList.add('cart-total');
-        totalElement.innerHTML = `
-            <h3>Total:</h3>
-            <p class="total-pagar">$${total.toFixed(2)}</p>
-        `;
-        containerCartProducts.appendChild(totalElement);
-
-        countProducts.textContent = totalQuantity;
-
-        // Botones de eliminar
-        document.querySelectorAll('.btn-remove').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const index = e.target.getAttribute('data-index');
-                cart.splice(index, 1);
-                updateCart();
+            // Función para actualizar el carrito
+            function updateCart() {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+                countProducts.textContent = totalQuantity;
+                
+                containerCartProducts.innerHTML = '';
+                
+                if (cart.length === 0) {
+                    containerCartProducts.innerHTML = '<p>El carrito está vacío</p>';
+                    return;
+                }
+                
+                let total = 0;
+                cart.forEach((product, index) => {
+                    const productElement = document.createElement('div');
+                    productElement.classList.add('cart-product');
+                    productElement.innerHTML = `
+                        <div class="info-cart-product">
+                            <p class="titulo-producto-carrito">${product.name}</p>
+                            <p class="precio-producto-carrito">$${product.price.toFixed(2)} x ${product.quantity}</p>
+                        </div>
+                        <button class="btn-remove" data-index="${index}">Eliminar</button>
+                    `;
+                    containerCartProducts.appendChild(productElement);
+                    total += product.price * product.quantity;
+                });
+                
+                const totalElement = document.createElement('div');
+                totalElement.classList.add('cart-total');
+                totalElement.innerHTML = `
+                    <h3>Total:</h3>
+                    <p class="total-pagar">$${total.toFixed(2)}</p>
+                `;
+                containerCartProducts.appendChild(totalElement);
+                
+                const btnPagarContainer = document.createElement('div');
+                btnPagarContainer.innerHTML = `
+                    <button class="btn-pagar" id="btn-pagar-contraentrega">Pago Contra Entrega</button>
+                `;
+                containerCartProducts.appendChild(btnPagarContainer);
+                
+                document.getElementById('btn-pagar-contraentrega').addEventListener('click', function() {
+                    modalContraEntrega.style.display = 'flex';
+                });
+                
+                document.querySelectorAll('.btn-remove').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        cart.splice(index, 1);
+                        updateCart();
+                    });
+                });
+            }
+            
+            // Eventos
+            btnCart.addEventListener('click', function(e) {
+                e.preventDefault();
+                containerCartProducts.style.display = containerCartProducts.style.display === 'block' ? 'none' : 'block';
             });
-        });
+            
+            btnAddToCart.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const product = this.closest('.item');
+                    const name = product.querySelector('h2').textContent;
+                    const price = parseFloat(product.querySelector('.price').textContent.replace('$', ''));
+                    
+                    const existingProduct = cart.find(item => item.name === name);
+                    
+                    if (existingProduct) {
+                        existingProduct.quantity += 1;
+                    } else {
+                        cart.push({
+                            name,
+                            price,
+                            quantity: 1
+                        });
+                    }
+                    
+                    updateCart();
+                    containerCartProducts.style.display = 'block';
+                });
+            });
+            
+            cerrarModal.addEventListener('click', function() {
+                modalContraEntrega.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === modalContraEntrega) {
+                    modalContraEntrega.style.display = 'none';
+                }
+            });
+            
+            formContraEntrega.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const nombre = document.getElementById('nombre').value;
+                const telefono = document.getElementById('telefono').value;
+                const correo = document.getElementById('correo').value;
+                
+                generarTicketPDF(nombre, telefono, correo);
+            });
+            
+            // Función COMPLETA para generar PDF
+            function generarTicketPDF(nombre, telefono, correo) {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Encabezado
+                doc.setFontSize(20);
+                doc.setTextColor(46, 139, 87);
+                doc.text('Huerto Escolar - Recibo de Compra', 105, 20, null, null, 'center');
+                
+                // Info Cliente
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                doc.text(`Cliente: ${nombre}`, 20, 60);
+                doc.text(`Teléfono: ${telefono}`, 20, 70);
+                doc.text(`Correo: ${correo}`, 20, 80);
+                doc.text(`Fecha: ${new Date().toLocaleDateString('es-MX')}`, 20, 90);
+                
+                // Línea separadora
+                doc.setDrawColor(46, 139, 87);
+                doc.line(20, 100, 190, 100);
+                
+                // Productos
+                doc.setFontSize(14);
+                doc.text('Productos', 20, 110);
+                
+                let total = 0;
+                const productos = cart.map(item => {
+                    total += item.price * item.quantity;
+                    return [
+                        item.name,
+                        item.quantity,
+                        `$${item.price.toFixed(2)}`,
+                        `$${(item.price * item.quantity).toFixed(2)}`
+                    ];
+                });
+                
+                doc.autoTable({
+                    startY: 125,
+                    head: [['Producto', 'Cantidad', 'Precio', 'Subtotal']],
+                    body: productos,
+                    styles: {
+                        halign: 'center',
+                        cellPadding: 3,
+                        fontSize: 10
+                    },
+                    headStyles: {
+                        fillColor: [46, 139, 87],
+                        textColor: [255, 255, 255]
+                    }
+                });
+                
+                // Total
+                doc.setFontSize(14);
+                doc.text(`Total: $${total.toFixed(2)}`, 150, doc.autoTable.previous.finalY + 20);
+                
+                // Pie de página
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.text('Gracias por su compra - Huerto Escolar', 105, 280, null, null, 'center');
+                
+                // Guardar PDF
+                const pdfName = `ticket_${nombre}_${new Date().toLocaleDateString('es-MX')}.pdf`;
+                doc.save(pdfName);
+                
+                // Mostrar loader
+                const modalContent = document.querySelector('.modal-contenido');
+                modalContent.innerHTML = `
+                    <div style="padding: 20px; text-align: center;">
+                        <div class="loader" style="border: 5px solid #f3f3f3; border-top: 5px solid #2E8B57; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto;"></div>
+                        <h3>Generando ticket y enviando confirmación...</h3>
+                    </div>
+                `;
+                
+                // Enviar correos
+                enviarCorreos(nombre, telefono, correo, productos, total);
+            }
+            
+            // Función para enviar correos
+    // Función modificada para enviar correos
+function enviarCorreos(nombre, telefono, correo, productos, total) {
+    // Formatear productos como texto para el correo
+    const productosTexto = productos.map(p => 
+        `${p[0]} - Cantidad: ${p[1]} - Subtotal: ${p[3]}`
+    ).join('\n');
+
+    const templateParams = {
+        to_name: cliente_nombre,
+        to_email: correo,
+        telefono: telefono,
+        productos: productos,
+        total: total.toFixed(2),
+        fecha: new Date().toLocaleDateString('es-MX')
     };
 
-    // Añadir producto
-    btnAddToCart.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const item = btn.closest('.item');
-            const name = item.querySelector('h2').textContent;
-            const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
-
-            const existing = cart.find(p => p.name === name);
-            if (existing) {
-                existing.quantity += 1;
-            } else {
-                cart.push({ name, price, quantity: 1 });
-            }
-
+    // 1. Enviar al cliente
+    emailjs.send('service_md7d2sh', 'template_8xth9go', templateParams)
+        .then(() => {
+            // 2. Enviar copia al vendedor (con los mismos datos)
+            return emailjs.send('service_md7d2sh', 'template_jvjrbh9', templateParams);
+        })
+        .then(() => {
+            // Éxito
+            console.log('Correos enviados!');
+        })
+        .catch(error => {
+            console.error('Error al enviar correos:', error);
+        });
+}
+            
+            // Filtrado de categorías
+            document.querySelectorAll('.filtro-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const categoria = this.dataset.categoria;
+                    
+                    if (categoria === 'todas') {
+                        document.querySelectorAll('.categoria-productos').forEach(sec => sec.style.display = 'block');
+                    } else {
+                        document.querySelectorAll('.categoria-productos').forEach(sec => sec.style.display = 'none');
+                        document.getElementById(categoria).style.display = 'block';
+                    }
+                });
+            });
+            
+            // Menú responsive
+            const menuToggle = document.getElementById('menu-toggle');
+            const navLinks = document.getElementById('nav-links');
+            
+            menuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+            
+            // Inicializar carrito
             updateCart();
         });
-    });
-
-    // Mostrar/ocultar carrito
-    btnCart.addEventListener('click', () => {
-        containerCartProducts.classList.toggle('hidden-cart');
-    });
-
-    updateCart(); // Inicializar
-});
-</script>
-
-<!-- MODAL Y PAYPAL -->
-<script>
-function mostrarResumenCarrito() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const resumenContainer = document.getElementById('resumen-carrito');
-    const totalContainer = document.getElementById('total-carrito');
-    
-    resumenContainer.innerHTML = '';
-    let total = 0;
-
-    cart.forEach(item => {
-        const div = document.createElement('div');
-        div.innerHTML = `
-            <span>${item.name} x ${item.quantity}</span>
-            <span>$${(item.price * item.quantity).toFixed(2)}</span>
-        `;
-        resumenContainer.appendChild(div);
-        total += item.price * item.quantity;
-    });
-
-    totalContainer.textContent = `$${total.toFixed(2)}`;
-    return total;
-}
-
-function configurarPayPal() {
-    const total = mostrarResumenCarrito();
-    const container = document.getElementById('paypal-button-container');
-    container.innerHTML = '';
-
-    paypal.Buttons({
-        style: {
-            layout: 'vertical',
-            color: 'gold',
-            shape: 'rect',
-            label: 'paypal'
-        },
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: total.toFixed(2)
-                    }
-                }]
-            });
-        },
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                alert('¡Pago completado! ID: ' + details.id);
-                localStorage.removeItem('cart');
-                document.querySelector('#contador-productos').textContent = '0';
-                document.getElementById('modal-pago').style.display = 'none';
-            });
-        },
-        onError: function(err) {
-            console.error(err);
-            alert('Ocurrió un error al procesar el pago');
-        }
-    }).render('#paypal-button-container');
-}
-
-// Modal
-document.addEventListener('DOMContentLoaded', () => {
-    const btnPagar = document.getElementById('btn-pagar');
-    const modal = document.getElementById('modal-pago');
-    const cerrarModal = document.querySelector('.cerrar-modal');
-
-    btnPagar.addEventListener('click', () => {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        if (cart.length === 0) {
-            alert('Tu carrito está vacío');
-            return;
-        }
-        mostrarResumenCarrito();
-        modal.style.display = 'block';
-
-        if (!document.querySelector('script[src*="paypal.com"]')) {
-            const script = document.createElement('script');
-            script.src = 'https://www.paypal.com/sdk/js?client-id=AWs2iLRZLlyMjBi3U2EFfvq4pYwlBNZd3OgypKAKMgPCAA7GTlb2hXyKh7c-qA0e-veOYq6IGwoxyycJ&currency=MXN';
-            script.onload = configurarPayPal;
-            document.head.appendChild(script);
-        } else {
-            configurarPayPal();
-        }
-    });
-
-    cerrarModal.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-});
-</script>
-<!-- Botón de Pago Contra Entrega -->
-
-
-<!-- Modal para Pago Contra Entrega -->
-<div id="modal-contraentrega" class="modal">
-  <div class="modal-contenido">
-    <span class="cerrar-modal">&times;</span>
-    <h2>Datos para Pago Contra Entrega</h2>
-    <form id="form-contraentrega">
-      <label for="nombre">Nombre completo:</label>
-      <input type="text" id="nombre" required>
-
-      <label for="telefono">Teléfono:</label>
-      <input type="tel" id="telefono" required>
-
-      <label for="correo">Correo electrónico:</label>
-      <input type="email" id="correo" required>
-
-      <button type="submit">Generar Ticket</button>
-    </form>
-  </div>
-</div>
-
-<!-- Biblioteca para PDF (jsPDF) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
-<script>
-// Configuración del modal de contra entrega
-document.addEventListener('DOMContentLoaded', () => {
-  const btnContraEntrega = document.getElementById('btn-contraentrega');
-  const modalContraEntrega = document.getElementById('modal-contraentrega');
-  const formContraEntrega = document.getElementById('form-contraentrega');
-
-  // Abrir modal
-  btnContraEntrega.addEventListener('click', () => {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    if (cart.length === 0) {
-      alert('Tu carrito está vacío');
-      return;
-    }
-    modalContraEntrega.style.display = 'block';
-  });
-
-  // Enviar formulario
-  formContraEntrega.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    const telefono = document.getElementById('telefono').value;
-    const correo = document.getElementById('correo').value;
-    
-    generarTicketPDF(nombre, telefono, correo);
-  });
-});
-
-// Generar PDF con jsPDF
-function generarTicketPDF(nombre, telefono, correo) {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  let total = 0;
-
-  // Logo y título
-  doc.setFontSize(20);
-  doc.setTextColor(40, 180, 99);
-  doc.text('Huerto Escolar', 105, 20, { align: 'center' });
-  doc.setFontSize(16);
-  doc.setTextColor(0, 0, 0);
-  doc.text('Ticket de Compra - Pago Contra Entrega', 105, 30, { align: 'center' });
-
-  // Datos del cliente
-  doc.setFontSize(12);
-  doc.text(`Nombre: ${nombre}`, 14, 45);
-  doc.text(`Teléfono: ${telefono}`, 14, 55);
-  doc.text(`Correo: ${correo}`, 14, 65);
-
-  // Tabla de productos
-  const headers = [['Producto', 'Cantidad', 'Precio', 'Total']];
-  const data = cart.map(item => {
-    total += item.price * item.quantity;
-    return [
-      item.name,
-      item.quantity,
-      `$${item.price.toFixed(2)}`,
-      `$${(item.price * item.quantity).toFixed(2)}`
-    ];
-  });
-
-  // Añadir tabla al PDF
-  doc.autoTable({
-    startY: 75,
-    head: headers,
-    body: data,
-    theme: 'grid',
-    headStyles: { fillColor: [76, 175, 80] }
-  });
-
-  // Total
-  doc.text(`Total a pagar: $${total.toFixed(2)}`, 14, doc.lastAutoTable.finalY + 20);
-
-  // Mensaje final
-  doc.setFontSize(10);
-  doc.text('Gracias por su compra. Nos contactaremos para coordinar la entrega.', 105, doc.lastAutoTable.finalY + 30, { align: 'center' });
-
-  // Guardar PDF
-  doc.save(`ticket_${nombre}_${new Date().toLocaleDateString()}.pdf`);
-
-  // Limpiar carrito y cerrar modal
-  localStorage.removeItem('cart');
-  document.querySelector('#contador-productos').textContent = '0';
-  document.getElementById('modal-contraentrega').style.display = 'none';
-  alert('¡Ticket generado con éxito!');
-}
-</script>
-
-
-<script>
-// Filtrado de categorías
-document.querySelectorAll('.filtro-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Remover clase active de todos los botones
-        document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
-        // Añadir clase active al botón clickeado
-        btn.classList.add('active');
-        
-        const categoria = btn.dataset.categoria;
-        
-        // Mostrar/ocultar secciones
-        if (categoria === 'todas') {
-            document.querySelectorAll('.categoria-productos').forEach(sec => sec.style.display = 'block');
-        } else {
-            document.querySelectorAll('.categoria-productos').forEach(sec => sec.style.display = 'none');
-            document.getElementById(categoria).style.display = 'block';
-        }
-    });
-});
-</script>
+    </script>
 </body>
 </html>
