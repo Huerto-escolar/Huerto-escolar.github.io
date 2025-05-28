@@ -934,10 +934,10 @@ function enviarCorreos(nombre, telefono, correo, productos, total) {
     ).join('\n');
 
     const templateParams = {
-        to_name: cliente_nombre,
+        to_name: nombre,
         to_email: correo,
         telefono: telefono,
-        productos: productos,
+        productos: productosTexto,
         total: total.toFixed(2),
         fecha: new Date().toLocaleDateString('es-MX')
     };
@@ -988,3 +988,4 @@ function enviarCorreos(nombre, telefono, correo, productos, total) {
     </script>
 </body>
 </html>
+ 
