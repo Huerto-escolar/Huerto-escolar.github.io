@@ -4,125 +4,778 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huerto Escolar | Inicio</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   <link rel="icon" type="image/x-icon" href="plan.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos base */
+        :root {
+            --primary: #2E8B57;
+            --primary-light: #3CB371;
+            --secondary: #F8F8F8;
+            --text: #333333;
+            --text-light: #666666;
+            --white: #FFFFFF;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            background-color: var(--secondary);
+            line-height: 1.6;
+        }
+        
+        /* Navbar mejorada */
+        .navbar {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+        }
+        
+        .menu-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-bar input {
+            padding: 0.6rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 25px 0 0 25px;
+            outline: none;
+            width: 200px;
+            transition: all 0.3s;
+        }
+        
+        .search-bar input:focus {
+            border-color: var(--primary);
+            width: 250px;
+        }
+        
+        .search-bar button {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background: var(--primary-light);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        
+        .nav-links li a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+            padding: 0.5rem;
+        }
+        
+        .nav-links li a:hover, 
+        .nav-links li a.active {
+            color: var(--primary);
+        }
+        
+        .nav-links li a i {
+            font-size: 1rem;
+        }
+        
+        .cart-icon a {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .count-products {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: var(--white);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Slider mejorado */
+        .slider-fancy {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+        
+        .slider-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+        
+        .slide-caption {
+            position: absolute;
+            bottom: 20%;
+            left: 10%;
+            color: var(--white);
+            max-width: 600px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .slide-caption h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .slide-caption p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+        
+        .btn-slide {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease 0.6s forwards;
+            opacity: 0;
+        }
+        
+        .btn-slide:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .slider-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .prev {
+            left: 2rem;
+        }
+        
+        .next {
+            right: 2rem;
+        }
+        
+        /* Hero Section mejorada */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Sección Sobre Nosotros */
+        .about-us {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .about-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .about-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .about-header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+        
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        
+        .about-card {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .about-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .about-card.reverse {
+            flex-direction: row-reverse;
+        }
+        
+        .about-img {
+            width: 50%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .about-text {
+            width: 50%;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .about-text p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        /* Footer */
+        .cool-footer {
+            background: #2E5E4E;
+            color: var(--white);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .footer-logo img {
+            width: 100px;
+        }
+        
+        .social-links h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-icon {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .social-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .slider-fancy {
+                height: 400px;
+            }
+            
+            .slide-caption h3 {
+                font-size: 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .about-card {
+                flex-direction: column;
+            }
+            
+            .about-card.reverse {
+                flex-direction: column;
+            }
+            
+            .about-img, .about-text {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                background: var(--white);
+                flex-direction: column;
+                width: 80%;
+                max-width: 300px;
+                border-radius: 10px;
+                box-shadow: var(--shadow);
+                padding: 2rem;
+                transition: right 0.3s ease;
+            }
+            
+            .nav-links.active {
+                right: 2rem;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem 0;
+            }
+            
+            .search-bar {
+                display: none;
+            }
+            
+            .slider-fancy {
+                height: 350px; 
+
+            }
+            
+            .slide-caption {
+                bottom: 15%;
+                left: 5%;
+            }
+            
+            .slide-caption h3 {
+                font-size: 1.8rem;
+            }
+            
+            .slide-caption p {
+                font-size: 1rem;
+            }
+            
+            .hero {
+                padding: 3rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .slider-fancy {
+                height: 300px;
+            }
+            
+            .slider-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .about-us {
+                padding: 1rem;
+            }
+            
+            .about-card {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Menú de Navegación -->
+    <!-- Menú de Navegación Mejorado -->
     <nav class="navbar">
         <div class="logo">
             <i class="fas fa-leaf"></i>
             <span>Huerto Escolar</span>
         </div>
-        <ul class="nav-links">
-            <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
-            <li><a href="productos.html"><i class="fas fa-seedling"></i> Productos</a></li>
-            <li><a href="#sobre"><i class="fas fa-users"></i> Sobre Nosotros</a></li>
-            <li class="cart-icon">
-                <a href="#"><i class="fas fa-shopping-cart"></i> <span class="count-products">0</span></a>
-            </li>
-        </ul>
+        <div class="menu-container">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="productos.html"><i class="fas fa-seedling"></i> Productos</a></li>
+                <li><a href="nostros.html"><i class="fas fa-users"></i> Sobre Nosotros</a></li>
+                <li class="cart-icon">
+                    <a href="#"><i class="fas fa-shopping-cart"></i> <span class="count-products">0</span></a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
-  
+    <!-- Slider de Imágenes Mejorado -->
+    <section class="slider-fancy">
+        <div class="slider-track">
+            <div class="slide">
+                <img src="alpiste-01.jpg" alt="Alpiste Orgánico">
+                <div class="slide-caption">
+                    <h3>Alpiste Orgánico</h3>
+                    <p>¡Nutrición natural para tus aves!</p>
+                    <a href="productos.html" class="btn-slide">Comprar</a>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="oleorresina-guajillo.jpg" alt="Pulpa de Chile">
+                <div class="slide-caption">
+                    <h3>Pulpa de Chile</h3>
+                    <p>¡Sabor auténtico para tus platillos!</p>
+                    <a href="productos.html" class="btn-slide">Comprar</a>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="Maiz.jpg" alt="Maíz">
+                <div class="slide-caption">
+                    <h3>Maíz Criollo</h3>
+                    <p>¡Cultiva tu propio huerto!</p>
+                    <a href="productos.html" class="btn-slide">Comprar</a>
+                </div>
+            </div>
+        </div>
+        <button class="slider-btn prev"><i class="fas fa-arrow-left"></i></button>
+        <button class="slider-btn next"><i class="fas fa-arrow-right"></i></button>
+    </section>
 
-<section class="slider-fancy">
-    <div class="slider-track">
-        <div class="slide">
-            <img src="alpiste-01.jpg" alt="Alpiste">
-            <div class="slide-caption">
-                <h3>Alpiste Orgánico</h3>
-                <p>¡Nutrición natural para tus aves!</p>
-                <a href="productos.html" class="btn-slide">Comprar</a>
-            </div>
-        </div>
-        <div class="slide">
-            <img src="oleorresina-guajillo.jpg" alt="Pulpa de Chile">
-            <div class="slide-caption">
-                <h3>Pulpa de Chile</h3>
-                <p>¡Sabor auténtico para tus platillos!</p>
-                <a href="productos.html" class="btn-slide">Comprar</a>
-            </div>
-        </div>
-        <div class="slide">
-            <img src="Maiz.jpg" alt="Planta">
-            <div class="slide-caption">
-                <h3>Maiz</h3>
-                <p>¡Cultiva tu propio huerto!</p>
-                <a href="productos.html" class="btn-slide">Comprar</a>
-            </div>
-        </div>
-    </div>
-    <button class="slider-btn prev"><i class="fas fa-arrow-left"></i></button>
-    <button class="slider-btn next"><i class="fas fa-arrow-right"></i></button>
-</section>
-    <!-- Hero Section (Portada) -->
+    <!-- Hero Section Mejorada -->
     <section class="hero">
         <h1>Bienvenido a Huerto Escolar</h1>
-        <p>Productos naturales cultivados con amor</p>
-        <a href="productos.html" class="btn">Ver Mas Productos</a>
+        <p>Productos naturales cultivados con amor y técnicas sostenibles</p>
+        <a href="productos.html" class="btn">Ver Más Productos</a>
     </section>
-    
 
-    <<!-- Sección Sobre Nosotros -->
-<section class="about-us" id ="sobre">
-    <div class="about-header">
-        <h2>Nuestra Historia</h2>
-        <p>Conectando a la comunidad con la naturaleza desde 2025</p>
-    </div>
+    <!-- Sección Sobre Nosotros Mejorada -->
+    <section class="about-us" id="sobre">
+        <div class="about-header">
+            <h2>Nuestra Historia</h2>
+            <p>Conectando a la comunidad con la naturaleza desde 2025</p>
+        </div>
 
-    <div class="about-content">
-        <!-- Imagen y Texto 1 -->
-        <div class="about-card">
-            <img src="huerto-equipo.jpg" alt="Equipo del huerto" class="about-img">
-            <div class="about-text">
-                <h3>Misión</h3>
-                <p>Promover la agricultura sostenible y educar a las nuevas generaciones sobre el cuidado del medio ambiente a través de nuestro huerto escolar.</p>
+        <div class="about-content">
+            <!-- Tarjeta Misión -->
+            <div class="about-card">
+                <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Equipo del huerto" class="about-img">
+                <div class="about-text">
+                    <h3>Misión</h3>
+                    <p>Promover la agricultura sostenible y educar a las nuevas generaciones sobre el cuidado del medio ambiente a través de nuestro huerto escolar. Fomentamos valores de responsabilidad ecológica, trabajo en equipo y conexión con la naturaleza mediante prácticas agrícolas responsables.</p>
+                </div>
+            </div>
+
+            <!-- Tarjeta Visión -->
+            <div class="about-card reverse">
+                <img src="https://images.unsplash.com/photo-1605001011156-cbf0b0f67a51?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Plantando semillas" class="about-img">
+                <div class="about-text">
+                    <h3>Visión</h3>
+                    <p>Ser un referente en agricultura urbana escolar, transformando espacios educativos en pulmones verdes que inspiren a otras comunidades. Visualizamos un futuro donde cada escuela tenga su propio huerto como herramienta educativa y fuente de alimentos saludables para su comunidad.</p>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- Imagen y Texto 2 (invertido) -->
-        <div class="about-card reverse">
-            <img src="plantando.jpg" alt="Plantando semillas" class="about-img">
-            <div class="about-text">
-                <h3>Visión</h3>
-                <p>Ser un referente en agricultura urbana, transformando espacios educativos en pulmones verdes que inspiren a otras comunidades.</p>
+    <!-- Footer Mejorado -->
+    <footer class="cool-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://via.placeholder.com/100x100?text=Huerto+Escolar" alt="Huerto Escolar" width="100">
+                <p>Cultivando futuro, sembrando conciencia.</p>
+            </div>
+
+            <div class="social-links">
+                <h4>Síguenos</h4>
+                <div class="social-icons">
+                    <a href="#" target="_blank" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" target="_blank" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" target="_blank" class="social-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- Footer con Redes Sociales -->
-<footer class="cool-footer">
-    <div class="footer-content">
-        <div class="footer-logo">
-            <img src="logo-huerto.png" alt="Huerto Escolar" width="100">
-            <p>Cultivando futuro, sembrando conciencia.</p>
+        <div class="copyright">
+            <p>© 2025 Huerto Escolar. Todos los derechos reservados.</p>
         </div>
+    </footer>
 
-        <div class="social-links">
-            <h4>Síguenos</h4>
-            <div class="social-icons">
-                <a href="#" target="_blank" class="social-icon">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" target="_blank" class="social-icon">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#" target="_blank" class="social-icon">
-                    <i class="fab fa-tiktok"></i>
-                </a>
-                <a href="#" class="social-icon">
-                    <i class="fas fa-envelope"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="copyright">
-        <p>© 2025 Huerto Escolar. Todos los derechos reservados.</p>
-    </div>
-</footer>
-    <script src="script.js"></script>
+    <script>
+        // Slider Automático
+        document.addEventListener('DOMContentLoaded', () => {
+            const sliderTrack = document.querySelector('.slider-track');
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            let currentIndex = 0;
+            const slideWidth = slides[0].clientWidth;
+            let slideInterval;
+
+            // Clona el primer slide para efecto infinito
+            sliderTrack.appendChild(slides[0].cloneNode(true));
+
+            function goToSlide(index) {
+                currentIndex = index;
+                sliderTrack.style.transition = 'transform 0.5s ease-in-out';
+                sliderTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slides.length;
+                if (currentIndex === slides.length) {
+                    setTimeout(() => {
+                        sliderTrack.style.transition = 'none';
+                        currentIndex = 0;
+                        sliderTrack.style.transform = `translateX(0)`;
+                    }, 500);
+                }
+                goToSlide(currentIndex);
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                if (currentIndex < 0) {
+                    currentIndex = slides.length - 1;
+                    sliderTrack.style.transition = 'none';
+                    sliderTrack.style.transform = `translateX(-${slides.length * slideWidth}px)`;
+                    setTimeout(() => {
+                        sliderTrack.style.transition = 'transform 0.5s ease-in-out';
+                        goToSlide(currentIndex);
+                    }, 10);
+                } else {
+                    goToSlide(currentIndex);
+                }
+            }
+
+            function startSlider() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopSlider() {
+                clearInterval(slideInterval);
+            }
+
+            // Event listeners
+            nextBtn.addEventListener('click', () => {
+                stopSlider();
+                nextSlide();
+                startSlider();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                stopSlider();
+                prevSlide();
+                startSlider();
+            });
+
+            sliderTrack.addEventListener('mouseenter', stopSlider);
+            sliderTrack.addEventListener('mouseleave', startSlider);
+
+            // Iniciar slider
+            startSlider();
+
+            // Menú desplegable para móviles
+            const menuToggle = document.getElementById('menu-toggle');
+            const navLinks = document.getElementById('nav-links');
+
+            menuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+        });
+
+        // Funcionalidad del carrito (mantenida de tu versión original)
+        document.addEventListener('DOMContentLoaded', () => {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            updateCartCounter();
+
+            function updateCartCounter() {
+                const count = cart.reduce((total, item) => total + item.quantity, 0);
+                document.querySelector('.count-products').textContent = count;
+            }
+        });
+    </script>
 </body>
 </html>
