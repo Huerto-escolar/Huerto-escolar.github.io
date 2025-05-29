@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
-<script>
-  emailjs.init('EtPhPZG4n7UgYh1x-'); // Tu User ID
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huerto Escolar - Productos</title>
@@ -86,6 +82,10 @@
         .nav-links li a:hover, 
         .nav-links li a.active {
             color: var(--primary);
+        }
+        
+        .nav-links li a i {
+            font-size: 1rem;
         }
         
         .cart-icon {
@@ -254,20 +254,21 @@
         .cart-container {
             position: relative;
         }
+        
         .container-cart-products {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background: var(--white);
-    width: 400px;
-    max-height: 60vh; /* Altura máxima (60% del viewport) */
-    overflow-y: auto; /* Scroll vertical automático */
-    z-index: 1000;
-    box-shadow: var(--shadow);
-    border-radius: 10px;
-    padding: 1rem;
-    display: none;
-}
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: var(--white);
+            width: 400px;
+            max-height: 60vh;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            border-radius: 10px;
+            padding: 1rem;
+            display: none;
+        }
         
         .cart-product {
             display: flex;
@@ -340,7 +341,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        /* Modal */
+        /* Modal WhatsApp */
         .modal {
             display: none;
             position: fixed;
@@ -376,6 +377,50 @@
         
         .cerrar-modal:hover {
             color: var(--primary);
+        }
+        
+        .modal-contenido h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .modal-contenido form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .modal-contenido label {
+            font-weight: 500;
+        }
+        
+        .modal-contenido input {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+            color: var(--white);
+            border: none;
+            padding: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
         }
         
         /* Footer */
@@ -464,16 +509,9 @@
             }
             
             .container-cart-products {
-        width: 300px;
-    height: 200px;
-    overflow: auto; /* Muestra scroll solo si es necesario */
-    /* overflow-y: auto;  Solo scroll vertical */
-    /* overflow-x: auto;  Solo scroll horizontal */
-    border: 1px solid #ccc; 
-            
+                width: 300px;
+            }
         }
-        
-        
     </style>
 </head>
 <body>
@@ -504,173 +542,171 @@
         </div>
     </nav>
 
-    <main>
-        <!-- Sección de categorías -->
-        <div class="categorias">
-            <h2>Nuestros Productos</h2>
-            <div class="filtros">
-                <button class="filtro-btn active" data-categoria="todas">Todas</button>
-                <button class="filtro-btn" data-categoria="macetas"><i class="fas fa-recycle"></i> Macetas</button>
-                <button class="filtro-btn" data-categoria="bombas"><i class="fas fa-bomb"></i> Bombas</button>
-                <button class="filtro-btn" data-categoria="semillas"><i class="fas fa-seedling"></i> Semillas</button>
-                <button class="filtro-btn" data-categoria="plantas"><i class="fas fa-leaf"></i> Plantas</button>
+    <!-- Sección de categorías -->
+    <div class="categorias">
+        <h2>Nuestros Productos</h2>
+        <div class="filtros">
+            <button class="filtro-btn active" data-categoria="todas">Todas</button>
+            <button class="filtro-btn" data-categoria="macetas"><i class="fas fa-recycle"></i> Macetas</button>
+            <button class="filtro-btn" data-categoria="bombas"><i class="fas fa-bomb"></i> Bombas</button>
+            <button class="filtro-btn" data-categoria="semillas"><i class="fas fa-seedling"></i> Semillas</button>
+            <button class="filtro-btn" data-categoria="plantas"><i class="fas fa-leaf"></i> Plantas</button>
+        </div>
+    </div>
+
+    <!-- Contenedor de productos -->
+    <div class="container-categorias">
+        <!-- Macetas Ecológicas -->
+        <section class="categoria-productos" id="macetas">
+            <h3><i class="fas fa-recycle" style="color: #4CAF50;"></i> Macetas Ecológicas</h3>
+            <div class="container-items">
+                <!-- Producto 1 -->
+                <div class="item">
+                    <figure>
+                        <img src="alpiste-01.jpg" alt="Maceta Alpiste">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Maceta Alpiste</h2>
+                        <p class="price">$80.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+                <!-- Producto 2 -->
+                <div class="item">
+                    <figure>
+                        <img src="oleorresina-guajillo.jpg" alt="Maceta Chile">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Maceta Chile</h2>
+                        <p class="price">$20.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+                <!-- Producto 3 -->
+                <div class="item">
+                    <figure>
+                        <img src="Maiz.jpg" alt="Maceta Maíz">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Maceta Maíz</h2>
+                        <p class="price">$50.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Contenedor de productos -->
-        <div class="container-categorias">
-            <!-- Macetas Ecológicas -->
-            <section class="categoria-productos" id="macetas">
-                <h3><i class="fas fa-recycle" style="color: #4CAF50;"></i> Macetas Ecológicas</h3>
-                <div class="container-items">
-                    <!-- Producto 1 -->
-                    <div class="item">
-                        <figure>
-                            <img src="alpiste-01.jpg" alt="Maceta Alpiste">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Maceta Alpiste</h2>
-                            <p class="price">$80.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
-                    </div>
-                    <!-- Producto 2 -->
-                    <div class="item">
-                        <figure>
-                            <img src="oleorresina-guajillo.jpg" alt="Maceta Chile">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Maceta Chile</h2>
-                            <p class="price">$20.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
-                    </div>
-                    <!-- Producto 3 -->
-                    <div class="item">
-                        <figure>
-                            <img src="Maiz.jpg" alt="Maceta Maíz">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Maceta Maíz</h2>
-                            <p class="price">$50.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
+        <!-- Bombas de Semillas -->
+        <section class="categoria-productos" id="bombas">
+            <h3><i class="fas fa-bomb" style="color: #FF9800;"></i> Bombas de Semillas</h3>
+            <div class="container-items">
+                <div class="item">
+                    <figure>
+                        <img src="alpiste-01.jpg" alt="Bomba Alpiste">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Bomba Alpiste</h2>
+                        <p class="price">$80.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
                     </div>
                 </div>
-            </section>
-
-            <!-- Bombas de Semillas -->
-            <section class="categoria-productos" id="bombas">
-                <h3><i class="fas fa-bomb" style="color: #FF9800;"></i> Bombas de Semillas</h3>
-                <div class="container-items">
-                    <div class="item">
-                        <figure>
-                            <img src="alpiste-01.jpg" alt="Bomba Alpiste">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Bomba Alpiste</h2>
-                            <p class="price">$80.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <figure>
-                            <img src="oleorresina-guajillo.jpg" alt="Bomba Chile">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Bomba Chile</h2>
-                            <p class="price">$20.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <figure>
-                            <img src="Maiz.jpg" alt="Bomba Maíz">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Bomba Maíz</h2>
-                            <p class="price">$50.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
+                <div class="item">
+                    <figure>
+                        <img src="oleorresina-guajillo.jpg" alt="Bomba Chile">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Bomba Chile</h2>
+                        <p class="price">$20.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
                     </div>
                 </div>
-            </section>
-
-            <!-- Semillas -->
-            <section class="categoria-productos" id="semillas">
-                <h3><i class="fas fa-seedling" style="color: #8BC34A;"></i> Semillas</h3>
-                <div class="container-items">
-                    <div class="item">
-                        <figure>
-                            <img src="alpiste-01.jpg" alt="Semillas Alpiste">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Semillas Alpiste</h2>
-                            <p class="price">$80.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <figure>
-                            <img src="oleorresina-guajillo.jpg" alt="Semillas Chile">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Semillas Chile</h2>
-                            <p class="price">$20.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <figure>
-                            <img src="Maiz.jpg" alt="Semillas Maíz">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Semillas Maíz</h2>
-                            <p class="price">$50.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
+                <div class="item">
+                    <figure>
+                        <img src="Maiz.jpg" alt="Bomba Maíz">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Bomba Maíz</h2>
+                        <p class="price">$50.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Plantas Decorativas -->
-            <section class="categoria-productos" id="plantas">
-                <h3><i class="fas fa-leaf" style="color: #2E5E4E;"></i> Plantas Decorativas</h3>
-                <div class="container-items">
-                    <div class="item">
-                        <figure>
-                            <img src="alpiste-01.jpg" alt="Planta Alpiste">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Planta Alpiste</h2>
-                            <p class="price">$80.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <figure>
-                            <img src="oleorresina-guajillo.jpg" alt="Planta Chile">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Planta Chile</h2>
-                            <p class="price">$20.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <figure>
-                            <img src="Maiz.jpg" alt="Planta Maíz">
-                        </figure>
-                        <div class="info-product">
-                            <h2>Planta Maíz</h2>
-                            <p class="price">$50.00</p>
-                            <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-                        </div>
+        <!-- Semillas -->
+        <section class="categoria-productos" id="semillas">
+            <h3><i class="fas fa-seedling" style="color: #8BC34A;"></i> Semillas</h3>
+            <div class="container-items">
+                <div class="item">
+                    <figure>
+                        <img src="alpiste-01.jpg" alt="Semillas Alpiste">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Semillas Alpiste</h2>
+                        <p class="price">$80.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
                     </div>
                 </div>
-            </section>
-        </div>
-    </main>
+                <div class="item">
+                    <figure>
+                        <img src="oleorresina-guajillo.jpg" alt="Semillas Chile">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Semillas Chile</h2>
+                        <p class="price">$20.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+                <div class="item">
+                    <figure>
+                        <img src="Maiz.jpg" alt="Semillas Maíz">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Semillas Maíz</h2>
+                        <p class="price">$50.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plantas Decorativas -->
+        <section class="categoria-productos" id="plantas">
+            <h3><i class="fas fa-leaf" style="color: #2E5E4E;"></i> Plantas Decorativas</h3>
+            <div class="container-items">
+                <div class="item">
+                    <figure>
+                        <img src="alpiste-01.jpg" alt="Planta Alpiste">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Planta Alpiste</h2>
+                        <p class="price">$80.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+                <div class="item">
+                    <figure>
+                        <img src="oleorresina-guajillo.jpg" alt="Planta Chile">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Planta Chile</h2>
+                        <p class="price">$20.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+                <div class="item">
+                    <figure>
+                        <img src="Maiz.jpg" alt="Planta Maíz">
+                    </figure>
+                    <div class="info-product">
+                        <h2>Planta Maíz</h2>
+                        <p class="price">$50.00</p>
+                        <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- Footer -->
     <footer class="cool-footer">
@@ -703,35 +739,26 @@
         </div>
     </footer>
 
-    <!-- Modal para pago contra entrega -->
-    <div id="modal-contraentrega" class="modal">
+    <!-- Modal WhatsApp -->
+    <div id="modal-whatsapp" class="modal">
         <div class="modal-contenido">
             <span class="cerrar-modal">&times;</span>
-            <h2>Datos para Pago Contra Entrega</h2>
-            <form id="form-contraentrega">
-                <label for="nombre">Nombre completo:</label>
-                <input type="text" id="nombre" required>
-
-                <label for="telefono">Teléfono:</label>
-                <input type="tel" id="telefono" required>
-
-                <label for="correo">Correo electrónico:</label>
-                <input type="email" id="correo" required>
-
-                <button type="submit" class="btn-pagar">Generar Ticket</button>
+            <h2>Confirmar Pedido por WhatsApp</h2>
+            <form id="form-whatsapp">
+                <label for="nombre-whatsapp">Nombre completo:</label>
+                <input type="text" id="nombre-whatsapp" placeholder="Tu nombre" required>
+                
+                <label for="telefono-whatsapp">Número de WhatsApp:</label>
+                <input type="tel" id="telefono-whatsapp" placeholder="Ej: 521234567890" required>
+                
+                <button type="submit" class="btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Enviar Pedido
+                </button>
             </form>
         </div>
     </div>
 
-     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
     <script>
-        // Inicializar EmailJS
-        emailjs.init('EtPhPZG4n7UgYh1x-');
-
         document.addEventListener('DOMContentLoaded', function() {
             // Variables
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -739,11 +766,11 @@
             const containerCartProducts = document.getElementById('container-cart-products');
             const countProducts = document.querySelector('.count-products');
             const btnAddToCart = document.querySelectorAll('.btn-add-cart');
-            const modalContraEntrega = document.getElementById('modal-contraentrega');
-            const formContraEntrega = document.getElementById('form-contraentrega');
+            const modalWhatsApp = document.getElementById('modal-whatsapp');
+            const formWhatsApp = document.getElementById('form-whatsapp');
             const cerrarModal = document.querySelector('.cerrar-modal');
 
-            // Función para actualizar el carrito
+            // Actualizar carrito
             function updateCart() {
                 localStorage.setItem('cart', JSON.stringify(cart));
                 const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
@@ -781,14 +808,11 @@
                 
                 const btnPagarContainer = document.createElement('div');
                 btnPagarContainer.innerHTML = `
-                    <button class="btn-pagar" id="btn-pagar-contraentrega">Pago Contra Entrega</button>
+                    <button class="btn-pagar" id="btn-pagar-whatsapp">Pagar con WhatsApp</button>
                 `;
                 containerCartProducts.appendChild(btnPagarContainer);
                 
-                document.getElementById('btn-pagar-contraentrega').addEventListener('click', function() {
-                    modalContraEntrega.style.display = 'flex';
-                });
-                
+                // Evento para eliminar productos
                 document.querySelectorAll('.btn-remove').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const index = this.getAttribute('data-index');
@@ -798,12 +822,13 @@
                 });
             }
             
-            // Eventos
+            // Abrir/cerrar carrito
             btnCart.addEventListener('click', function(e) {
                 e.preventDefault();
                 containerCartProducts.style.display = containerCartProducts.style.display === 'block' ? 'none' : 'block';
             });
             
+            // Añadir productos al carrito
             btnAddToCart.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const product = this.closest('.item');
@@ -826,136 +851,6 @@
                     containerCartProducts.style.display = 'block';
                 });
             });
-            
-            cerrarModal.addEventListener('click', function() {
-                modalContraEntrega.style.display = 'none';
-            });
-            
-            window.addEventListener('click', function(e) {
-                if (e.target === modalContraEntrega) {
-                    modalContraEntrega.style.display = 'none';
-                }
-            });
-            
-            formContraEntrega.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const nombre = document.getElementById('nombre').value;
-                const telefono = document.getElementById('telefono').value;
-                const correo = document.getElementById('correo').value;
-                
-                generarTicketPDF(nombre, telefono, correo);
-            });
-            
-            // Función COMPLETA para generar PDF
-            function generarTicketPDF(nombre, telefono, correo) {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                
-                // Encabezado
-                doc.setFontSize(20);
-                doc.setTextColor(46, 139, 87);
-                doc.text('Huerto Escolar - Recibo de Compra', 105, 20, null, null, 'center');
-                
-                // Info Cliente
-                doc.setFontSize(12);
-                doc.setTextColor(0, 0, 0);
-                doc.text(`Cliente: ${nombre}`, 20, 60);
-                doc.text(`Teléfono: ${telefono}`, 20, 70);
-                doc.text(`Correo: ${correo}`, 20, 80);
-                doc.text(`Fecha: ${new Date().toLocaleDateString('es-MX')}`, 20, 90);
-                
-                // Línea separadora
-                doc.setDrawColor(46, 139, 87);
-                doc.line(20, 100, 190, 100);
-                
-                // Productos
-                doc.setFontSize(14);
-                doc.text('Productos', 20, 110);
-                
-                let total = 0;
-                const productos = cart.map(item => {
-                    total += item.price * item.quantity;
-                    return [
-                        item.name,
-                        item.quantity,
-                        `$${item.price.toFixed(2)}`,
-                        `$${(item.price * item.quantity).toFixed(2)}`
-                    ];
-                });
-                
-                doc.autoTable({
-                    startY: 125,
-                    head: [['Producto', 'Cantidad', 'Precio', 'Subtotal']],
-                    body: productos,
-                    styles: {
-                        halign: 'center',
-                        cellPadding: 3,
-                        fontSize: 10
-                    },
-                    headStyles: {
-                        fillColor: [46, 139, 87],
-                        textColor: [255, 255, 255]
-                    }
-                });
-                
-                // Total
-                doc.setFontSize(14);
-                doc.text(`Total: $${total.toFixed(2)}`, 150, doc.autoTable.previous.finalY + 20);
-                
-                // Pie de página
-                doc.setFontSize(10);
-                doc.setTextColor(100, 100, 100);
-                doc.text('Gracias por su compra - Huerto Escolar', 105, 280, null, null, 'center');
-                
-                // Guardar PDF
-                const pdfName = `ticket_${nombre}_${new Date().toLocaleDateString('es-MX')}.pdf`;
-                doc.save(pdfName);
-                
-                // Mostrar loader
-                const modalContent = document.querySelector('.modal-contenido');
-                modalContent.innerHTML = `
-                    <div style="padding: 20px; text-align: center;">
-                        <div class="loader" style="border: 5px solid #f3f3f3; border-top: 5px solid #2E8B57; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto;"></div>
-                        <h3>Generando ticket y enviando confirmación...</h3>
-                    </div>
-                `;
-                
-                // Enviar correos
-                enviarCorreos(nombre, telefono, correo, productos, total);
-            }
-            
-            // Función para enviar correos
-    // Función modificada para enviar correos
-function enviarCorreos(nombre, telefono, correo, productos, total) {
-    // Formatear productos como texto para el correo
-    const productosTexto = productos.map(p => 
-        `${p[0]} - Cantidad: ${p[1]} - Subtotal: ${p[3]}`
-    ).join('\n');
-
-    const templateParams = {
-        to_name: nombre,
-        to_email: correo,
-        telefono: telefono,
-        productos: productosTexto,
-        total: total.toFixed(2),
-        fecha: new Date().toLocaleDateString('es-MX')
-    };
-
-    // 1. Enviar al cliente
-    emailjs.send('service_md7d2sh', 'template_8xth9go', templateParams)
-        .then(() => {
-            // 2. Enviar copia al vendedor (con los mismos datos)
-            return emailjs.send('service_md7d2sh', 'template_jvjrbh9', templateParams);
-        })
-        .then(() => {
-            // Éxito
-            console.log('Correos enviados!');
-        })
-        .catch(error => {
-            console.error('Error al enviar correos:', error);
-        });
-}
             
             // Filtrado de categorías
             document.querySelectorAll('.filtro-btn').forEach(btn => {
@@ -982,10 +877,62 @@ function enviarCorreos(nombre, telefono, correo, productos, total) {
                 navLinks.classList.toggle('active');
             });
             
+            // WhatsApp Integration
+            function generarMensajeWhatsApp(nombre, telefono) {
+                let mensaje = `*Nuevo Pedido - Huerto Escolar*%0A%0A`;
+                mensaje += `*Cliente:* ${nombre}%0A`;
+                mensaje += `*Teléfono:* ${telefono}%0A%0A`;
+                mensaje += `*Detalles del pedido:*%0A`;
+                
+                let total = 0;
+                cart.forEach(item => {
+                    const subtotal = item.price * item.quantity;
+                    mensaje += `- ${item.name} x${item.quantity} - $${subtotal.toFixed(2)}%0A`;
+                    total += subtotal;
+                });
+                
+                mensaje += `%0A*Total:* $${total.toFixed(2)}`;
+                return mensaje;
+            }
+            
+            // Evento para abrir modal WhatsApp
+            document.addEventListener('click', function(e) {
+                if (e.target && e.target.id === 'btn-pagar-whatsapp') {
+                    e.preventDefault();
+                    modalWhatsApp.style.display = 'flex';
+                }
+            });
+            
+            // Cerrar modal
+            cerrarModal.addEventListener('click', function() {
+                modalWhatsApp.style.display = 'none';
+            });
+            
+            // Enviar por WhatsApp
+            formWhatsApp.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const nombre = document.getElementById('nombre-whatsapp').value;
+                const telefono = document.getElementById('telefono-whatsapp').value;
+                
+                if (!nombre || !telefono) {
+                    alert('Por favor completa todos los campos');
+                    return;
+                }
+                
+                const mensaje = generarMensajeWhatsApp(nombre, telefono);
+                const numeroWhatsApp = "521234567890"; // REEMPLAZA CON TU NÚMERO (código país + número)
+                
+                window.open(`https://wa.me/${numeroWhatsApp}?text=${mensaje}`, '_blank');
+                
+                // Opcional: Limpiar carrito después de enviar
+                // cart = [];
+                // updateCart();
+                // modalWhatsApp.style.display = 'none';
+            });
+            
             // Inicializar carrito
             updateCart();
         });
     </script>
 </body>
 </html>
- 
