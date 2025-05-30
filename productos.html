@@ -244,10 +244,37 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            margin-top: 0.8rem;
         }
         
         .btn-add-cart:hover {
             background: var(--primary-light);
+        }
+        
+        /* Estilo para el botón de descarga */
+        .btn-descargar {
+            display: inline-block;
+            width: 100%;
+            background: #FF6B00;
+            color: white;
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);
+        }
+        
+        .btn-descargar:hover {
+            background: #E55D00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4);
+        }
+        
+        .btn-descargar i {
+            margin-right: 8px;
         }
         
         /* Carrito */
@@ -607,6 +634,11 @@
                     <div class="info-product">
                         <h2>Bomba Alpiste</h2>
                         <p class="price">$80.00</p>
+                        <a href="Técnicas de cultivo para semillas de alpiste en pulpa de papel.pdf" 
+                           download 
+                           class="btn-descargar">
+                           <i class="fas fa-file-download"></i> Descargar Proceso
+                        </a>
                         <button class="btn-add-cart"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
                     </div>
                 </div>
